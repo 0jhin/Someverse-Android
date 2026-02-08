@@ -11,6 +11,7 @@ import com.someverse.presentation.ui.auth.signup.SignupDoneScreen
 import com.someverse.presentation.ui.auth.signup.SignupLocationScreen
 import com.someverse.presentation.ui.auth.signup.SignupMovieCategoryScreen
 import com.someverse.presentation.ui.auth.signup.SignupMovieTasteScreen
+import com.someverse.presentation.ui.auth.signup.SignupNicknameScreen
 import com.someverse.presentation.ui.auth.signup.SignupProfileImageScreen
 import com.someverse.presentation.ui.chat.DetailChatScreen
 import com.someverse.presentation.ui.main.MainScreen
@@ -23,7 +24,7 @@ import com.someverse.presentation.ui.splash.SplashScreen
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    startDestination: String = Screen.Splash.route, // 스플래시 화면으로 시작
+    startDestination: String = Screen.SignupNickname.route, // 스플래시 화면으로 시작
 ) {
     NavHost(
         navController = navController,
@@ -50,6 +51,16 @@ fun NavGraph(
                     navController.navigate(Screen.SignupLocation.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
+                },
+            )
+        }
+
+        composable(route = Screen.SignupNickname.route) {
+            SignupNicknameScreen(
+                onNextClick = {
+                    println("닉네임 작성 완료 -> 성별 입력 화면으로 이동 시작")
+                    navController.navigate(Screen.SignupProfileImage.route) //TODO: 성별 입력 화면으로 변경
+                    println("✅ 성별 입력 화면 네비게이션 호출 완료")
                 },
             )
         }

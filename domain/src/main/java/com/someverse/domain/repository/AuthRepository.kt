@@ -45,6 +45,8 @@ interface AuthRepository {
      * Submit nickname (Step 1)
      * @return Updated User with nickname
      */
+    suspend fun checkNickname(nickname: String): Result<Boolean>
+
     suspend fun submitNickname(nickname: String): Result<User>
 
     /**

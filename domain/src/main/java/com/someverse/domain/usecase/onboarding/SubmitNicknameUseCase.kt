@@ -11,37 +11,52 @@ import javax.inject.Inject
  * - Delegates to AuthRepository
  */
 class SubmitNicknameUseCase
-    @Inject
-    constructor(
-        private val authRepository: AuthRepository,
-    ) {
-        /**
-         * Submit user nickname
-         *
-         * @param nickname User's chosen nickname, 2~8자
-         * @return Result<User> updated user with nickname or failure with validation error
-         */
-        suspend operator fun invoke(nickname: String): Result<User> {
-            // Business logic: Validate nickname
-            if (nickname.isBlank()) {
-                return Result.failure(
-                    IllegalArgumentException("Nickname cannot be blank"),
-                )
-            }
-
-            if (nickname.length < 2) {
-                return Result.failure(
-                    IllegalArgumentException("Nickname must be at least 2 characters"),
-                )
-            }
-
-            if (nickname.length > 8) {
-                return Result.failure(
-                    IllegalArgumentException("Nickname must be less than 9 characters"),
-                )
-            }
-
-            // Delegate to repository
-            return authRepository.submitNickname(nickname)
+@Inject
+constructor(
+    private val authRepository: AuthRepository,
+) {
+    /**
+     * Submit user nickname
+     *
+     * @param nickname User's chosen nickname, 2~8자
+     * @return Result<User> updated user with nickname or failure with validation error
+     */
+    suspend operator fun invoke(nickname: String): Result<User> {
+        // Business logic: Validate nickname
+        if (nickname.isBlank()) {
+            return Result.failure(
+                IllegalArgumentException("Nickname cannot be blank"),
+            )
         }
+
+        if (nickname.length < 2) {
+            return Result.failure(
+                IllegalArgumentException("Nickname must be at least 2 characters"),
+            )
+        }
+
+        if (nickname.length > 8) {
+            return Result.failure(
+                IllegalArgumentException("Nickname must be less than 9 characters"),
+            )
+        }
+
+        // 중복 확인
+        authRepository.checkNickname(nickname)
+            .onSuccess { result ->
+                if (!result) {
+                    // Delegate to repository
+                    return Result.failure(
+                        IllegalArgumentException("Nickname is duplicated")
+                    )
+                }
+            }.onFailure {
+                return Result.failure(
+                    IllegalArgumentException("error")
+                )
+            }
+
+
+        return authRepository.submitNickname(nickname)
     }
+}
