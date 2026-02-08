@@ -59,6 +59,8 @@ interface AuthDataSource {
      * Submit nickname
      * @return Updated UserEntity
      */
+    suspend fun checkNickname(nickname: String): Boolean
+
     suspend fun submitNickname(nickname: String): UserEntity
 
     /**
