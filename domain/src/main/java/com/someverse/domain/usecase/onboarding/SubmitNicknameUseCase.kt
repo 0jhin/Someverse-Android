@@ -47,7 +47,7 @@ constructor(
                 if (!result) {
                     // Delegate to repository
                     return Result.failure(
-                        IllegalArgumentException("Nickname is duplicated")
+                        IllegalArgumentException("이미 사용중인 닉네임이에요.")
                     )
                 }
             }.onFailure {
