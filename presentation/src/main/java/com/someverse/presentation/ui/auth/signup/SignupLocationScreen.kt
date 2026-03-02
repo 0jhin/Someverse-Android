@@ -7,11 +7,29 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +47,14 @@ import com.someverse.presentation.components.CityList
 import com.someverse.presentation.components.DistrictList
 import com.someverse.presentation.components.GradientButton
 import com.someverse.presentation.components.LocationChip
-import com.someverse.presentation.ui.theme.*
+import com.someverse.presentation.components.PageIndicator
+import com.someverse.presentation.ui.theme.Black
+import com.someverse.presentation.ui.theme.DescGray
+import com.someverse.presentation.ui.theme.Dimensions
+import com.someverse.presentation.ui.theme.PretendardFontFamily
+import com.someverse.presentation.ui.theme.PrimaryPurple
+import com.someverse.presentation.ui.theme.withLetterSpacingPercent
+import com.someverse.presentation.ui.theme.withLineHeightPercent
 
 /**
  * 위치 정보 입력 화면
@@ -260,7 +285,8 @@ fun LocationSelectionSection(
                         .border(
                             width = 1.dp,
                             color = Color(0xFFEBEFF5).copy(alpha = 0.5f),
-                        ).background(Color(0xFFEBEFF5).copy(alpha = 0.5f)),
+                        )
+                        .background(Color(0xFFEBEFF5).copy(alpha = 0.5f)),
             ) {
                 // 도시 및 구/군 선택 영역을 Row로 배치
                 Row(modifier = Modifier.fillMaxWidth()) {
@@ -329,15 +355,4 @@ fun LocationSelectionSection(
     }
 }
 
-@Composable
-fun PageIndicator(isActive: Boolean) {
-    Box(
-        modifier =
-            Modifier
-                .size(width = 8.dp, height = 8.dp)
-                .clip(CircleShape)
-                .background(
-                    if (isActive) PrimaryPurple else Color(0xFFE4E8EF),
-                ),
-    )
-}
+
