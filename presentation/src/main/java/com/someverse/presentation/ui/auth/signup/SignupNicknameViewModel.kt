@@ -21,21 +21,28 @@ constructor(
     val uiState: StateFlow<SignupNicknameUiState> = _uiState.asStateFlow()
 
     fun onValueChange(value: String) {
-        _uiState.update { it ->
-            it.copy(nickname = value)
+        _uiState.update {
+            it.copy(nickname = value, isNicknameAvailable = false, errorMessage = "")
         }
     }
 
-    fun submitNickname(onSuccess: () -> Unit) {
+    fun validateNickname() {
+        val currentNickname = _uiState.value.nickname
+        if (currentNickname.isBlank()) return
+
         viewModelScope.launch {
-            submitNicknameUseCase(nickname = _uiState.value.nickname)
-                .onSuccess { user ->
-                    _uiState.update { it.copy(errorMessage = "") }
-                    onSuccess()
+            submitNicknameUseCase(nickname = currentNickname)
+                .onSuccess {
+                    _uiState.update { it.copy(isNicknameAvailable = true, errorMessage = "") }
                 }
                 .onFailure { error ->
-                    val errorMsg = error.message ?: "에러 발생"
-                    _uiState.update { it.copy(errorMessage = errorMsg) }
+                    val errorMsg = error.message ?: "이미 사용 중인 닉네임입니다."
+                    _uiState.update {
+                        it.copy(
+                            isNicknameAvailable = false,
+                            errorMessage = errorMsg
+                        )
+                    }
                 }
         }
     }
