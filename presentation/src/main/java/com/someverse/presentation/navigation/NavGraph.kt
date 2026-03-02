@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.someverse.presentation.ui.auth.login.LoginScreen
 import com.someverse.presentation.ui.auth.signup.SignupDoneScreen
+import com.someverse.presentation.ui.auth.signup.SignupGenderChoiceScreen
 import com.someverse.presentation.ui.auth.signup.SignupLocationScreen
 import com.someverse.presentation.ui.auth.signup.SignupMovieCategoryScreen
 import com.someverse.presentation.ui.auth.signup.SignupMovieTasteScreen
@@ -59,8 +60,18 @@ fun NavGraph(
             SignupNicknameScreen(
                 onNextClick = {
                     println("닉네임 작성 완료 -> 성별 입력 화면으로 이동 시작")
-                    navController.navigate(Screen.SignupProfileImage.route) //TODO: 성별 입력 화면으로 변경
+                    navController.navigate(Screen.SignupGenderChoice.route)
                     println("✅ 성별 입력 화면 네비게이션 호출 완료")
+                },
+            )
+        }
+
+        composable(route = Screen.SignupGenderChoice.route) {
+            SignupGenderChoiceScreen(
+                onNextClick = {
+                    println("성별 입력 완료 -> 생년월일 입력 화면으로 이동 시작")
+                    navController.navigate(Screen.SignupProfileImage.route) //TODO: 생년월일 입력 화면으로 변경
+                    println("✅ 생년월일 입력 화면 네비게이션 호출 완료")
                 },
             )
         }
