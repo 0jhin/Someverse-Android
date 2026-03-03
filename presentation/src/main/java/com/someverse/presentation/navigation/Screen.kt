@@ -17,6 +17,8 @@ sealed class Screen(
     data object SignupNickname : Screen("signup_nickname")
     data object SignupGenderChoice : Screen("signup_gender_choice")
 
+    data object SignupBirth : Screen("signup_birth")
+
     data object SignupLocation : Screen("signup_location")
 
     data object SignupProfileImage : Screen("signup_profile_image")
