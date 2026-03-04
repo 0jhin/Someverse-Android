@@ -19,9 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -52,7 +50,6 @@ import com.someverse.presentation.ui.theme.Black
 import com.someverse.presentation.ui.theme.DescGray
 import com.someverse.presentation.ui.theme.Dimensions
 import com.someverse.presentation.ui.theme.PretendardFontFamily
-import com.someverse.presentation.ui.theme.PrimaryPurple
 import com.someverse.presentation.ui.theme.withLetterSpacingPercent
 import com.someverse.presentation.ui.theme.withLineHeightPercent
 
@@ -278,75 +275,37 @@ fun LocationSelectionSection(
             modifier = Modifier.offset(y = (-16).dp),
         ) {
             Box(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .heightIn(max = 240.dp)
-                        .border(
-                            width = 1.dp,
-                            color = Color(0xFFEBEFF5).copy(alpha = 0.5f),
-                        )
-                        .background(Color(0xFFEBEFF5).copy(alpha = 0.5f)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 240.dp)
+                    .border(width = 1.dp, color = Color(0xFFEBEFF5).copy(alpha = 0.5f))
+                    .background(Color(0xFFEBEFF5).copy(alpha = 0.5f)),
             ) {
                 // 도시 및 구/군 선택 영역을 Row로 배치
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    // 도시 목록 (항상 표시)
-                    if (selectionStep == SelectionStep.DISTRICT) {
-                        // 도시 선택 완료 - 선택된 도시 표시
-                        Box(
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .weight(1f)
-                                    .background(Color(0xFFF5F5F5))
-                                    .padding(vertical = 24.dp, horizontal = 16.dp),
-                            contentAlignment = Alignment.CenterStart,
-                        ) {
-                            Text(
-                                text = selectedCity ?: "",
-                                style =
-                                    MaterialTheme.typography.labelLarge
-                                        .copy(
-                                            fontWeight = FontWeight.SemiBold,
-                                            fontFamily = PretendardFontFamily,
-                                            lineHeight = 22.sp,
-                                        ).withLetterSpacingPercent(-2.5f),
-                                color = PrimaryPurple,
-                            )
-                        }
-                    } else {
-                        // 도시 목록
-                        CityList(
-                            cities = regions,
-                            selectedCity = selectedCity,
-                            onCitySelected = onCitySelected,
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
+                    CityList(
+                        cities = regions,
+                        selectedCity = selectedCity,
+                        onCitySelected = onCitySelected,
+                        modifier = Modifier.weight(1f),
+                    )
 
                     // 세로 구분선
                     Box(
-                        modifier =
-                            Modifier
-                                .fillMaxHeight()
-                                .width(1.dp)
-                                .background(Color(0xFFE4E8EF)),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(1.dp)
+                            .background(Color(0xFFE4E8EF)),
                     )
 
                     // 구/군 목록 (도시가 선택된 경우에만 표시)
-                    Box(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        androidx.compose.animation.AnimatedVisibility(
-                            visible = selectionStep == SelectionStep.DISTRICT,
-                        ) {
-                            Column {
-                                // 구/군 목록
-                                DistrictList(
-                                    districts = districts,
-                                    onDistrictSelected = onDistrictSelected,
-                                )
-                            }
+                    Box(modifier = Modifier.weight(1f)) {
+                        // 도시가 선택되어 있고, 해당 도시의 데이터가 있을 때만 목록 노출
+                        if (selectedCity != null && districts.isNotEmpty()) {
+                            DistrictList(
+                                districts = districts,
+                                onDistrictSelected = onDistrictSelected,
+                            )
                         }
                     }
                 }
