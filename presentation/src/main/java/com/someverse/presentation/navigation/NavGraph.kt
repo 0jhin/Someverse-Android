@@ -71,7 +71,7 @@ fun NavGraph(
             SignupGenderChoiceScreen(
                 onNextClick = {
                     println("성별 입력 완료 -> 생년월일 입력 화면으로 이동 시작")
-                    navController.navigate(Screen.SignupBirth.route) //TODO: 생년월일 입력 화면으로 변경
+                    navController.navigate(Screen.SignupBirth.route)
                     println("✅ 생년월일 입력 화면 네비게이션 호출 완료")
                 },
             )
@@ -81,7 +81,7 @@ fun NavGraph(
             SignupBirthScreen(
                 onNextClick = {
                     println("생년월일 입력 완료 -> 활동지역 입력 화면으로 이동 시작")
-                    navController.navigate(Screen.SignupProfileImage.route) //TODO: 활동지역 입력 화면으로 변경
+                    navController.navigate(Screen.SignupLocation.route)
                     println("✅ 활동지역 입력 화면 네비게이션 호출 완료")
                 },
             )

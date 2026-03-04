@@ -102,40 +102,29 @@ constructor(
         val currentSelections = currentState.selectedLocations.toMutableList()
         val newSelection = Location(city, district)
 
-        // 같은 도시의 기존 선택 확인 및 제거 (중복 방지를 위한 2중 안전장치)
-        currentSelections.removeAll { it.city == city }
+        // 완전히 동일한 선택(도시+구/군)이 있는지 확인
+        val isAlreadySelected = currentSelections.any {
+            it.city == city && it.district == district
+        }
 
-        // 완전히 동일한 선택(도시+구/군)이 있는지 한 번 더 확인
-        val exactMatch =
-            currentSelections.find {
-                it.city == city && it.district == district
-            }
-
-        if (exactMatch != null) {
-            // 이미 완전히 동일한 선택이 있으면 선택 취소하고 도시 선택 단계로 돌아감
-            _uiState.update {
-                it.copy(
-                    selectedCity = null,
-                    selectionStep = SelectionStep.CITY,
-                    isDropdownExpanded = false,
-                )
-            }
+        if (isAlreadySelected) {
+            // 이미 선택된 지역을 다시 누르면 선택 취소 (토글)
+            currentSelections.removeAll { it.city == city && it.district == district }
+            _uiState.update { it.copy(selectedLocations = currentSelections) }
             return
         }
 
-        // 최대 선택 개수 확인
+        // 최대 선택 개수 확인 (2개)
         if (currentSelections.size >= currentState.maxLocationSelection) {
             return
         }
 
-        // 새 위치 추가하고 도시 선택 단계로 돌아감
+        // 새 위치 추가
         currentSelections.add(newSelection)
+
         _uiState.update {
             it.copy(
-                selectedLocations = currentSelections.take(currentState.maxLocationSelection), // 최대 개수 제한 한번 더 확인
-                selectedCity = null,
-                selectionStep = SelectionStep.CITY,
-                isDropdownExpanded = false,
+                selectedLocations = currentSelections,
             )
         }
     }
