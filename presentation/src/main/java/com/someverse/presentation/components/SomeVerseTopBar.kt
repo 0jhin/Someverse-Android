@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,16 +34,15 @@ import com.someverse.presentation.ui.theme.withLetterSpacingPercent
 fun SomeVerseTopBar(
     modifier: Modifier = Modifier,
     textTitle: String? = null,
-    titleImage: Boolean = false,
     leadingIcon: (@Composable () -> Unit)? = null,
-    trailingIcon: (@Composable () -> Unit)? = null
+    trailingIcons: List<@Composable () -> Unit> = emptyList()
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(height = 52.dp)
-            .padding(horizontal = 30.dp)
             .background(color = Color(0xffFAFAFA))
+            .padding(horizontal = 30.dp)
     ) {
         // 좌측 아이콘
         if (leadingIcon != null) {
@@ -57,7 +57,8 @@ fun SomeVerseTopBar(
         // 텍스트 제목
         if (textTitle != null) {
             Text(
-                text = textTitle, style = MaterialTheme.typography.titleMedium
+                text = textTitle,
+                style = MaterialTheme.typography.titleMedium
                     .copy(
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 20.sp,
@@ -70,7 +71,7 @@ fun SomeVerseTopBar(
         }
 
         // 이미지 제목
-        if (titleImage) {
+        if (textTitle == null) {
             Image(
                 painter = painterResource(id = R.drawable.ic_logo_with_text),
                 contentDescription = "SOMEVERSE 로고",
@@ -82,49 +83,49 @@ fun SomeVerseTopBar(
             )
         }
 
-        // 우측 아이콘
-        if (trailingIcon != null) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
+        // 우측 아이콘 그룹 (Row 배치)
+        if (trailingIcons.isNotEmpty()) {
+            Row(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                trailingIcon()
+                trailingIcons.forEach { icon ->
+                    icon()
+                }
             }
         }
     }
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(showBackground = false)
 fun SomeVerseTopBarPreview() {
     val iconColor = Color(0xFF9098A6)
-    Column() {
+    Column {
         SomeVerseTopBar(
             textTitle = "취향 입력",
             leadingIcon = {
-                IconButton(
-                    onClick = {}
-                ) {
+                IconButton(onClick = {}) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_dismiss),
                         contentDescription = "뒤로가기",
                         tint = iconColor,
-                        modifier = Modifier.size(size = 28.dp)
+                        modifier = Modifier.size(28.dp)
                     )
                 }
             },
-            trailingIcon = {
-                IconButton(
-                    onClick = {}
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_search),
-                        contentDescription = "신고",
-                        tint = iconColor,
-                        modifier = Modifier.size(size = 20.dp)
-                    )
-                }
-            }
+            trailingIcons = listOf(
+                {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_search),
+                            contentDescription = "검색",
+                            tint = iconColor,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                },
+            )
         )
 
         Spacer(modifier = Modifier.height(Dimensions.space12))
@@ -142,8 +143,28 @@ fun SomeVerseTopBarPreview() {
                     )
                 }
             },
-            titleImage = true
+            trailingIcons = listOf(
+                {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_search),
+                            contentDescription = "검색",
+                            tint = iconColor,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                },
+                {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_add_image),
+                            contentDescription = "설정",
+                            tint = iconColor,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                }
+            )
         )
     }
-
 }
