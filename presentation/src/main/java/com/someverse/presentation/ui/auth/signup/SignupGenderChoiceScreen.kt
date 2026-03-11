@@ -38,6 +38,7 @@ import com.someverse.presentation.R
 import com.someverse.presentation.components.GradientButton
 import com.someverse.presentation.components.PageIndicator
 import com.someverse.presentation.components.SomeVerseTopBar
+import com.someverse.presentation.components.TopBarTitle
 import com.someverse.presentation.ui.theme.Black
 import com.someverse.presentation.ui.theme.Dimensions
 import com.someverse.presentation.ui.theme.PretendardFontFamily
@@ -73,7 +74,7 @@ private fun SignupGenderChoiceScreenContent(
     ) {
         Spacer(modifier = Modifier.height(14.dp))
 
-        SomeVerseTopBar(title = "회원가입")
+        SomeVerseTopBar(title = TopBarTitle.Text("회원가입"))
 
         Spacer(modifier = Modifier.height(Dimensions.space16))
 
