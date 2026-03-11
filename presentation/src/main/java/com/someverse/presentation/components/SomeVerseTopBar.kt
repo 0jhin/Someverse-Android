@@ -29,12 +29,17 @@ import com.someverse.presentation.R
 import com.someverse.presentation.ui.theme.DescGray
 import com.someverse.presentation.ui.theme.Dimensions
 import com.someverse.presentation.ui.theme.PretendardFontFamily
-import com.someverse.presentation.ui.theme.withLetterSpacingPercent
+
+sealed interface TopBarTitle {
+    data class Text(val value: String) : TopBarTitle
+    data object Logo : TopBarTitle
+    data object None : TopBarTitle
+}
 
 @Composable
 fun SomeVerseTopBar(
     modifier: Modifier = Modifier,
-    textTitle: String? = null,
+    title: TopBarTitle = TopBarTitle.None,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcons: (@Composable RowScope.() -> Unit)? = null
 ) {
@@ -55,33 +60,38 @@ fun SomeVerseTopBar(
             }
         }
 
-        // 텍스트 제목
-        if (textTitle != null) {
-            Text(
-                text = textTitle,
-                style = MaterialTheme.typography.titleMedium
-                    .copy(
+        // 제목
+        when (title) {
+            // 텍스트 제목
+            is TopBarTitle.Text -> {
+                Text(
+                    text = title.value,
+                    style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 20.sp,
-                        lineHeight = 32.sp,
                         fontFamily = PretendardFontFamily,
-                    ).withLetterSpacingPercent(-2.5f),
-                color = DescGray,
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
+                    ),
+                    color = DescGray,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
 
-        // 이미지 제목
-        if (textTitle == null) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_logo_with_text),
-                contentDescription = "SOMEVERSE 로고",
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = if (leadingIcon != null) 60.dp else Dimensions.space16)
-                    .width(108.dp)
-                    .height(20.dp)
-            )
+            // 이미지 제목
+            is TopBarTitle.Logo -> {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_logo_with_text),
+                    contentDescription = "SOMEVERSE 로고",
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        // Leading Icon 유무에 따른 동적 패딩
+                        .padding(start = if (leadingIcon != null) 60.dp else Dimensions.space16)
+                        .width(108.dp)
+                        .height(20.dp)
+                )
+            }
+
+            // 제목 없음
+            TopBarTitle.None -> {}
         }
 
         // 우측 아이콘 그룹 (Row 배치)
@@ -102,7 +112,7 @@ fun SomeVerseTopBarPreview() {
     val iconColor = Color(0xFF9098A6)
     Column {
         SomeVerseTopBar(
-            textTitle = "취향 입력",
+            title = TopBarTitle.Text("취향 입력"),
             leadingIcon = {
                 IconButton(onClick = {}) {
                     Icon(
@@ -128,6 +138,7 @@ fun SomeVerseTopBarPreview() {
         Spacer(modifier = Modifier.height(Dimensions.space12))
 
         SomeVerseTopBar(
+            title = TopBarTitle.Logo,
             leadingIcon = {
                 IconButton(
                     onClick = {}
