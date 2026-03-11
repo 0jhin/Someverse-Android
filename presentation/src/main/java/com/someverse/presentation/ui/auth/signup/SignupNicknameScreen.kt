@@ -44,6 +44,7 @@ import com.someverse.presentation.components.GradientButton
 import com.someverse.presentation.components.PageIndicator
 import com.someverse.presentation.components.SomeVerseTopBar
 import com.someverse.presentation.components.Toast
+import com.someverse.presentation.components.TopBarTitle
 import com.someverse.presentation.ui.theme.Black
 import com.someverse.presentation.ui.theme.DescGray
 import com.someverse.presentation.ui.theme.Dimensions
@@ -119,7 +120,7 @@ private fun SignupNicknameScreenContent(
                     .padding(Dimensions.screenPadding),
         ) {
             // 상단 타이틀
-            SomeVerseTopBar(title = "회원가입")
+            SomeVerseTopBar(title = TopBarTitle.Text("회원가입"))
 
             // 상단 여백
             Spacer(modifier = Modifier.height(Dimensions.space16))
