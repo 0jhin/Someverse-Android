@@ -22,6 +22,12 @@ object FeedMapper {
             content = this.content,
             nickName = this.nickName,
             profileImage = this.profileImages,
+            movieId = this.movieId,
+            movieTitle = this.movieTitle,
+            movieOverview = this.movieOverview,
+            moviePosterPath = this.moviePosterPath,
+            movieReleaseDate = this.movieReleaseDate,
+            createdAt = createdAt
         )
 
     /**
@@ -33,6 +39,12 @@ object FeedMapper {
             content = this.content,
             nickName = this.nickName,
             profileImages = this.profileImage,
+            movieId = this.movieId,
+            movieTitle = this.movieTitle,
+            movieOverview = this.movieOverview,
+            moviePosterPath = this.moviePosterPath,
+            movieReleaseDate = this.movieReleaseDate,
+            createdAt = createdAt
         )
 
     /**
@@ -54,5 +66,6 @@ object FeedMapper {
     /**
      * Convert domain parameter to UpdateFeedRequestDto
      */
-    fun updateRequestDto(content: String): UpdateFeedRequestDto = UpdateFeedRequestDto(content = content)
+    fun updateRequestDto(content: String): UpdateFeedRequestDto =
+        UpdateFeedRequestDto(content = content)
 }

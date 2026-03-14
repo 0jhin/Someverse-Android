@@ -17,6 +17,18 @@ data class FeedEntity(
     val nickName: String,
     @SerializedName("profileImages")
     val profileImages: String?,
+    @SerializedName("movieId")
+    val movieId: Long,
+    @SerializedName("movieTitle")
+    val movieTitle: String,
+    @SerializedName("movieOverview")
+    val movieOverview: String,
+    @SerializedName("moviePosterPath")
+    val moviePosterPath: String,
+    @SerializedName("movieReleaseDate")
+    val movieReleaseDate: String,
+    @SerializedName("createdAt")
+    val createdAt: String
 )
 
 /**
