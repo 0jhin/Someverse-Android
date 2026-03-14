@@ -53,7 +53,7 @@ enum class DialogType(
 }
 
 @Composable
-fun CustomActionDialog(
+fun SomeVerseDialog(
     type: DialogType = DialogType.INFO,
     title: String,
     description: String? = null,
@@ -154,7 +154,7 @@ fun CustomActionDialog(
 @Preview(showBackground = true)
 @Composable
 fun InfoDialog() {
-    CustomActionDialog(
+    SomeVerseDialog(
         type = DialogType.INFO,
         title = "마포구보안관2님에게\n" +
                 "대화를 신청하시겠어요?",
@@ -171,7 +171,7 @@ fun InfoDialog() {
 @Preview(showBackground = true)
 @Composable
 fun DangerDialog() {
-    CustomActionDialog(
+    SomeVerseDialog(
         type = DialogType.DANGER,
         title = "정말 로그아웃 하시겠어요?",
         primaryButtonText = "로그아웃",
