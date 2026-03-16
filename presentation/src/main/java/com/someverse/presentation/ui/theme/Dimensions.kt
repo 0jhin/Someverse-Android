@@ -30,4 +30,5 @@ object Dimensions {
 
     // Screen padding
     val screenPadding = space16
+    val topPadding = 30.dp
 }
