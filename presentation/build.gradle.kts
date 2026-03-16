@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.coil.compose)
     kapt(libs.hilt.compiler)
 
     // Kakao SDK
