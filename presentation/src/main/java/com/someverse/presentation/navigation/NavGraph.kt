@@ -13,6 +13,7 @@ import com.someverse.presentation.ui.auth.signup.SignupMovieCategoryScreen
 import com.someverse.presentation.ui.auth.signup.SignupMovieTasteScreen
 import com.someverse.presentation.ui.auth.signup.SignupProfileImageScreen
 import com.someverse.presentation.ui.chat.DetailChatScreen
+import com.someverse.presentation.ui.feed.MyFeedScreen
 import com.someverse.presentation.ui.main.MainScreen
 import com.someverse.presentation.ui.splash.SplashScreen
 
@@ -23,12 +24,16 @@ import com.someverse.presentation.ui.splash.SplashScreen
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    startDestination: String = Screen.Splash.route, // 스플래시 화면으로 시작
+    startDestination: String = Screen.MyFeed.route, // 스플래시 화면으로 시작
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
+        composable(route = Screen.MyFeed.route) {
+            MyFeedScreen()
+        }
+
         // Splash
         composable(route = Screen.Splash.route) {
             SplashScreen(

@@ -7,6 +7,8 @@ package com.someverse.presentation.navigation
 sealed class Screen(
     val route: String,
 ) {
+    data object MyFeed : Screen("my_feed")
+
     // Splash
     data object Splash : Screen("splash")
 
