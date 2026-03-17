@@ -1,10 +1,8 @@
 package com.someverse.presentation.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -56,53 +54,57 @@ fun Toast(
         Box(
             modifier =
                 modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Dimensions.space16),
-            contentAlignment = Alignment.Center,
+                    .fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
             Surface(
                 modifier = Modifier
                     .width(343.dp)
-                    .height(70.dp)
                     .shadow(
-                        elevation = 20.dp,
-                        shape = RoundedCornerShape(24.dp),
-                        spotColor = Color(0x22000000) // 부드러운 그림자
+                        elevation = 16.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        clip = false,
+                        spotColor = Color(0x0DE25061),
                     ),
                 shape = RoundedCornerShape(16.dp),
                 color = Color.White,
             ) {
-                Row(
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .padding(start = 16.dp, end = 39.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
+                Box(
+                    modifier = Modifier.padding(
+                        vertical = Dimensions.space4,
+                        horizontal = Dimensions.space16
+                    )
                 ) {
-                    if (isError) {
-                        // 에러 아이콘
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_error_outline),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(end = 16.dp)
-                                .size(20.dp)
-                                .align(Alignment.Top),
-                            tint = Color(0xFFE25061)
+                    Row(
+                        modifier = Modifier
+                            .padding(vertical = 12.dp)
+                            .padding(end = 24.dp),
+                    ) {
+                        if (isError) {
+                            // 에러 아이콘
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_error_outline),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .padding(end = 16.dp)
+                                    .size(20.dp)
+                                    .align(Alignment.Top),
+                                tint = Color(0xFFE25061)
+                            )
+                        }
+
+                        Text(
+                            text = message,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 16.sp,
+                                fontFamily = PretendardFontFamily,
+                            ),
+                            // 에러일 땐 붉은색, 성공일 땐 보라색 텍스트 색상 분기
+                            color = if (isError) Color(0xFFE25061) else Color(0xFF7250C9),
+                            textAlign = TextAlign.Start,
                         )
                     }
-
-                    Text(
-                        text = message,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 16.sp,
-                            fontFamily = PretendardFontFamily,
-                        ),
-                        // 에러일 땐 붉은색, 성공일 땐 보라색 텍스트 색상 분기
-                        color = if (isError) Color(0xFFE25061) else Color(0xFF7250C9),
-                        textAlign = TextAlign.Start,
-                    )
                 }
             }
         }
@@ -125,6 +127,16 @@ fun ToastPreView() {
 fun ErrorToastPreView() {
     Toast(
         message = "필수 프로필 사진 1장은 반드시 유지되어야 해요:)",
+        onDismiss = {},
+        isError = true
+    )
+}
+
+@Preview(showBackground = false)
+@Composable
+fun ErrorOneLineToastPreView() {
+    Toast(
+        message = "이미 사용 중인 닉네임이에요.",
         onDismiss = {},
         isError = true
     )
